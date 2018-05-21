@@ -1,0 +1,52 @@
+.secondary-navigation .btn.small { font-size: 11px; padding: 0px 12px 0px; }
+.geo-location-wrapper .btn { top: 176px; }
+.mtopfix { margin-top: 88px; }
+.mtopfix1 { margin-top: 96px; }
+
+.btn.btn-blue-white, select.btn-blue-white { background-color: #ffffff; color: #073855 !important; }
+.navigation .secondary-navigation { opacity: 1 !important; }
+
+.img_contact { height: 363px; width: 552px; }
+
+.page-contact .form-group label { float: left; }
+
+.page-submit .errorlist,
+.page-contact .errorlist,
+.page-property-detail .errorlist,
+.page-create-agency .errorlist { color: #ff0000; float: right; list-style-type: none; }
+
+.account-profile .errorlist { color: #ff0000; float: right; list-style-type: none; }
+
+#submit-form label,
+.page-create-agency label { float: left; }
+
+.page-submit .w100 { width: 100%; }
+.page-submit .form-price { text-align: right; }
+
+.page-listing-lines .navigation .add-your-property .btn { padding: 12px 9px 12px 9px; }
+
+.submit-pricing table tbody tr td:first-child { opacity: 1; }
+.submit-pricing table thead tr th.title, .submit-pricing table tbody tr td { width: 18%; }
+
+.form-group select { height: 41px; width: 100%; }
+
+.navigation .navbar { height: 60px; padding: 0; }
+
+#brand { margin-top: 0px; }
+.input-group { width: 100%; }
+.btn_add_abs { position: absolute; right: 0; top: 0;}
+
+@media (min-width: 770px) {
+    /*.search-box-wrapper { left: 60px; }*/
+}
+@media (max-width: 767px) {
+    .navigation .secondary-navigation {
+        background: #ffffff;
+    }
+    .navigation .secondary-navigation .user-area a {
+        color: #1396e2;
+    }
+    .navigation .secondary-navigation .user-area a:hover {
+        color: #073855;
+    }
+}

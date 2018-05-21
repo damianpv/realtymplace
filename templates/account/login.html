@@ -1,0 +1,72 @@
+{% extends "account/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+
+{% block title %}{% trans "Login" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fileinput.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-profile page-account{% endblock %}
+
+{% block content %}
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li class="active">{% trans 'Sign In' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <header><h1>{% trans "Sign In" %}</h1></header>
+
+        <div class="row">
+            {% if socialaccount.providers  %}
+                <p>{% blocktrans with site.name as site_name %}Please sign in with one
+                of your existing third party accounts. Or, <a href="{{ signup_url }}">sign up</a>
+                for a {{site_name}} account and sign in below:{% endblocktrans %}</p>
+
+                <div class="socialaccount_ballot">
+
+                  <ul class="socialaccount_providers">
+                    {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+                  </ul>
+
+                  <div class="login-or">{% trans 'or' %}</div>
+
+                </div>
+
+                {% include "socialaccount/snippets/login_extra.html" %}
+
+            {% else %}
+                <p align="center">{% blocktrans %}If you have not created an account yet, then please
+                <a href="{{ signup_url }}">sign up</a> first.{% endblocktrans %}</p>
+            {% endif %}
+
+            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                <form class="login" method="POST" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                    <button type="submit" class="btn pull-right btn-default" id="account-submit">{% trans "Sign In" %}</button>
+                </form>
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}

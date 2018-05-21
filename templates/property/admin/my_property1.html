@@ -1,0 +1,187 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}{% trans "My Properties" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fileinput.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-my-properties page-account{% endblock %}
+
+{% block content %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+    <script type="text/javascript">
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        $(document).ready(function() {
+
+            var csrftoken = getCookie('csrftoken');
+
+            function csrfSafeMethod(method) {
+                // these HTTP methods do not require CSRF protection
+                return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+            }
+            $.ajaxSetup({
+                crossDomain: false, // obviates need for sameOrigin test
+                beforeSend: function(xhr, settings) {
+                    if (!csrfSafeMethod(settings.type)) {
+                        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    }
+                }
+            });
+
+            // This function must be customized
+            var onDelete = function(){
+                console.log($(this))
+                $.post(this.href, function(data) {
+                    if (data.result == "ok"){
+                        alert("data deleted successfully");
+                    } else {
+                        // handle error processed by server here
+                        alert("smth goes wrong");
+                    }
+                }).fail(function() {
+                    // handle unexpected error here
+                    alert("error");
+                });
+                return false;
+            }
+
+            $(".delete").click(onDelete);
+        });
+    </script>
+
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li><a href="{% url 'go_profile' %}">{% trans 'Account' %}</a></li>
+            <li class="active">{% trans 'My Properties' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <div class="row">
+        <!-- sidebar -->
+        <div class="col-md-3 col-sm-2">
+            {% include 'accounts/sidebar.html' %}
+        </div><!-- /.col-md-3 -->
+        <!-- end Sidebar -->
+            <!-- My Properties -->
+            <div class="col-md-9 col-sm-10">
+                <section id="my-properties">
+                    <header><h1>My Properties</h1></header>
+                    <div class="my-properties">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Property</th>
+                                    <th></th>
+                                    <th>Date</th>
+                                    <th>Views</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for my_property in my_property %}
+                                <tr>
+                                    <td class="image">
+                                        <a href="{% url 'go_property_detail' slug=my_property.slug %}"><img alt="{{ my_property.title }}" src="{% static 'img/properties/property-04.jpg' %}"></a>
+                                    </td>
+                                    <td><div class="inner">
+                                        <a href="{% url 'go_property_detail' slug=my_property.slug %}"><h2>{{ my_property.title }}</h2></a>
+                                        <figure>Golden Valley, MN 55427</figure>
+                                        <div class="tag price">$ {{ my_property.price }}</div>
+                                    </div>
+                                    </td>
+                                    <td>
+                                        <div><strong>Last Updated:</strong>{{ my_property.updated_at }}</div>
+                                        <div><strong>Created:</strong> {{ my_property.created_at }}</div>
+                                    </td>
+                                    <td>{{ my_property.visit }}</td>
+                                    <td class="actions">
+                                        <a href="#" class="edit"><i class="fa fa-pencil"></i>Edit</a>
+                                        <a class="delete" href="{% url 'go_my_properties_delete' pk=my_property.pk %}"><i class="delete fa fa-trash-o"></i></a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div><!-- /.table-responsive -->
+
+                        {% comment %}
+                        {% if page_obj.has_previous %}
+                          <a href= "?page={{ page_obj.previous_page_number }}">newer entries &lt;&lt; </a>
+                        {% endif %}
+
+                        <span class="current">
+                          &nbsp;Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}{{ page_obj.paginator.page_range }}
+                        </span>
+
+                        {% if page_obj.has_next %}
+                          <a href="?page={{ page_obj.next_page_number }}"> &gt;&gt; older entries</a>
+                        {% endif %}
+                        {% endcomment %}
+
+                        <!-- Pagination -->
+                        <div class="center">
+                            <ul class="pagination">
+                                {% for num in page_obj.paginator.page_range %}
+                                <li {% if page_obj.number == num %}class="active"{% endif %}><a href="?page={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+                            </ul><!-- /.pagination-->
+                        </div><!-- /.center-->
+                    </div><!-- /.my-properties -->
+                </section><!-- /#my-properties -->
+            </div><!-- /.col-md-9 -->
+            <!-- end My Properties -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/icheck.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script_custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "account/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+
+{% block title %}{% trans "Confirm E-mail Address" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fileinput.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-profile page-account{% endblock %}
+
+{% block content %}
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li class="active">{% trans "Confirm E-mail Address" %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <header><h1>{% trans "Confirm E-mail Address" %}</h1></header>
+
+        <div class="row">
+
+            {% if confirmation %}
+                {% user_display confirmation.email_address.user as user_display %}
+                {% comment %}
+                <p align="center">{% blocktrans with confirmation.email_address.email as email %}Please confirm that <a href="mailto:{{email}}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endblocktrans %}</p>
+                {% endcomment %}
+                <p align="center">{% blocktrans with confirmation.email_address.email as email %}Please confirm your e-mail address: <a href="mailto:{{email}}">{{ email }}</a>{% endblocktrans %}</p>
+            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+                {% csrf_token %}
+                    <button type="submit" class="btn pull-right btn-default">{% trans 'Confirm' %}</button>
+                </form>
+            </div>
+            {% else %}
+                {% url 'account_email' as email_url %}
+                <p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url}}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
+            {% endif %}
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}
+

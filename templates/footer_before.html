@@ -1,0 +1,102 @@
+{% load staticfiles %}
+{% load thumbnail %}
+{% load i18n %}
+    <div class="inner">
+        <section id="footer-main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-3">
+                        <article>
+                            <h3>{% trans 'About Us' %}</h3>
+                            <p>{% trans 'RealtyMPlace.com is a online resource for rent and sale of residencial and commercial spaces. RealtyMPlace also is a powerful tool for property owners and agents.' %}</p>
+                            {% comment %}<hr>
+                            <a href="#" class="link-arrow">{% trans 'Read More' %}</a>{% endcomment %}
+                        </article>
+                    </div><!-- /.col-sm-3 -->
+                    <div class="col-md-3 col-sm-3">
+                        <article>
+                            <h3>{% trans 'Recent Properties' %}</h3>
+                            {% for recent in recent_footer_list %}
+                            <div class="property small">
+                                <a href="{{ recent.get_absolute_url }}">
+                                    <div class="property-image">
+                                        {% thumbnail recent.get_primary_image "100x75" format="PNG" crop="center" as im %}
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ recent.type }} for {{ recent.status }}">
+                                        {% endthumbnail %}
+                                    </div>
+                                </a>
+                                <div class="info">
+                                    <a href="{{ recent.get_absolute_url }}"><h4>{{ recent.title }} {{ recent.visit }}{% comment %}{{ recent.type }} {% trans 'for' %} {{ recent.status }}{% endcomment %}</h4></a>
+                                    <figure>{{ recent.city }}, {{ recent.state }} {{ recent.zip_code|safe }} </figure>
+                                    <div class="tag price">$ {{ recent.price }}</div>
+                                </div>
+                            </div><!-- /.property -->
+                            {% endfor %}
+                        </article>
+                    </div><!-- /.col-sm-3 -->
+                    <div class="col-md-3 col-sm-3">
+                        <article>
+                            <h3>{% trans 'Featured Properties' %}</h3>
+                            {% for featured in featured_list_footer %}
+                            <div class="property small">
+                                <a href="{{ featured.get_absolute_url }}">
+                                    <div class="property-image">
+                                        {% thumbnail featured.get_primary_image "100x75" format="PNG" crop="center" as im %}
+                                            <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ featured.type }} for {{ featured.status }}">
+                                        {% endthumbnail %}
+                                    </div>
+                                </a>
+                                <div class="info">
+                                    <a href="{{ featured.get_absolute_url }}"><h4>{{ featured.title }}{% comment %}{{ featured.type }} {% trans 'for' %} {{ featured.status }}{% endcomment %}</h4></a>
+                                    <figure>{{ featured.city }}, {{ featured.state }} {{ featured.zip_code|safe }} </figure>
+                                    <div class="tag price">$ {{ featured.price }}</div>
+                                </div>
+                            </div><!-- /.property -->
+                            {% endfor %}
+                            {% comment %}
+                            <h3>{% trans 'Contact' %}</h3>
+                            <address>
+                                <strong>Your Company</strong><br>
+                                4877 Spruce Drive<br>
+                                West Newton, PA 15089
+                            </address>
+                            {% endcomment %}
+                            {% comment %}
+                            +1 (734) 123-4567<br>
+                            <a href="mailto: {% trans 'contact@realtymplace.com' %}">{% trans 'contact@realtymplace.com' %}</a>
+                            {% endcomment %}
+                        </article>
+                    </div><!-- /.col-sm-3 -->
+                    <div class="col-md-3 col-sm-3">
+                        <article>
+                            <h3>{% trans 'Useful Links' %}</h3>
+                            <ul class="list-unstyled list-links">
+                                <li><a href="{% url 'account_signup' %}">{% trans 'Sign Up' %}</a></li>
+                                <li><a href="{% url 'account_login' %}">{% trans 'Sign In' %}</a></li>
+                                <li><a href="{% url 'go_property_list' %}">{% trans 'All Properties' %}</a></li>
+                                <li><a href="{% url 'go_privacy_policy' %}">{% trans 'Privacy Policy' %}</a></li>
+                                {% comment %}
+                                <li><a href="#">{% trans 'FAQ' %}</a></li>
+                                {% endcomment %}
+                                <li><a href="{% url 'go_terms_conditions' %}">{% trans 'Terms and Conditions' %}</a></li>
+                            </ul>
+                        </article>
+                    </div><!-- /.col-sm-3 -->
+                </div><!-- /.row -->
+                <div class="row">
+                    <br />
+                    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                    <!-- ads_home -->
+                    <ins class="adsbygoogle"
+                         style="display:block"
+                         data-ad-client="ca-pub-9171372872583544"
+                         data-ad-slot="2196473112"
+                         data-ad-format="auto"></ins>
+                    <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </section><!-- /#footer-main -->
+        <section id="footer-thumbnails" style="display: none;" class="footer-thumbnails"></section><!-- /#footer-thumbnails -->
+    </div><!-- /.inner -->

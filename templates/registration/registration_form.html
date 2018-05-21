@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}{% trans "Register for an account" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fileinput.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-create-account page-account{% endblock %}
+
+{% block content %}
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li class="active">{% trans 'Create an Account' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container page-sub-page page-create-account page-account">
+        <header><h1>{% trans 'Create an Account' %}</h1></header>
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                <h3>{% trans 'Account Type' %}</h3>
+                <form role="form" id="form-create-account" method="post" action="">{% csrf_token %}
+                    <div class="radio" id="create-account-user">
+                        <label>
+                            <input type="radio" id="account-type-user" name="account-type" required>{% trans 'Regular User' %}
+                        </label>
+                    </div>
+                    <div class="radio" id="agent-switch" data-agent-state="">
+                        <label>
+                            <input type="radio" id="account-type-agent" name="account-type" required>{% trans 'Agent' %}
+                        </label>
+                    </div>
+                    <div id="agency" class="disabled">
+                        <div class="form-group">
+                            <label for="account-agency">{% trans 'Select your agency' %}:</label>
+                            <select name="account-agency" id="account-agency">
+                                <option value="">Agency</option>
+                                <option value="1">Estate+</option>
+                                <option value="2">Northfolk Eastate</option>
+                                <option value="3">Maximum Properties</option>
+                                <option value="4">Edd's Homes</option>
+                                <option value="5">Will & Scotch</option>
+                            </select>
+                        </div><!-- /.form-group -->
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="form-create-account-full-name">Full Name:</label>
+                        <input type="text" class="form-control" id="form-create-account-full-name" required>
+                    </div><!-- /.form-group -->
+                    <div class="form-group">
+                        <label for="form-create-account-email">Email:</label>
+                        <input type="email" class="form-control" id="form-create-account-email" required>
+                    </div><!-- /.form-group -->
+                    <div class="form-group">
+                        <label for="form-create-account-password">Password:</label>
+                        <input type="password" class="form-control" id="form-create-account-password" required>
+                    </div><!-- /.form-group -->
+                    <div class="form-group">
+                        <label for="form-create-account-confirm-password">Confirm Password:</label>
+                        <input type="password" class="form-control" id="form-create-account-confirm-password" required>
+                    </div><!-- /.form-group -->
+                    <div class="checkbox pull-left">
+                        <label>
+                            <input type="checkbox" id="account-type-newsletter" name="account-newsletter">Receive Newsletter
+                        </label>
+                    </div>
+                    <br/>
+                    {#  { form }} #}
+                    <div class="form-group clearfix">
+                        <button type="submit" class="btn pull-right btn-default" id="account-submit">{% trans "Send activation email" %}</button>
+                    </div><!-- /.form-group -->
+                </form>
+                <hr>
+                <div class="center">
+                    <figure class="note">By clicking the “Create an Account” button you agree with our <a href="terms-conditions.html">Terms and conditions</a></figure>
+                </div>
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/icheck.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script_custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+
+{% endblock %}

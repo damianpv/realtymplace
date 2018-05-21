@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}{% trans "Login" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fileinput.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-profile page-account{% endblock %}
+
+{% block content %}
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li class="active">{% trans 'Sign In' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <header><h1>Sign In</h1></header>
+        <div class="row">
+            {% if form.errors %}
+            <p>{% blocktrans %}Your username and password didn't match. Please try again.{% endblocktrans %}</p>
+            {% endif %}
+
+            <div class="col-md-4 col-sm-6 col-md-offset-4 col-sm-offset-3">
+                <form role="form" id="form-create-account" method="post" action="{% url 'auth_login' %}">{% csrf_token %}
+                    <div class="form-group">
+                        <label for="form-create-account-email">{% trans form.username.label_tag %}</label>
+                        {{ form.username }}
+                    </div><!-- /.form-group -->
+                    <div class="form-group">
+                        <label for="form-create-account-password">{% trans form.password.label_tag %}</label>
+                        {{ form.password }}
+                    </div><!-- /.form-group -->
+                    <div class="form-group clearfix">
+                        <input type="hidden" name="next" value="{{ next }}" />
+                        <button type="submit" class="btn pull-right btn-default" id="account-submit">{% trans "Sign In" %}</button>
+                    </div><!-- /.form-group -->
+                </form>
+                <hr>
+                <div class="center">
+                    {% blocktrans %}<a href="{{ auth_pwd_reset_url }}">Forgot</a> your password? <a href="{{ register_url }}">Need an account</a>?{% endblocktrans %}
+                </div>
+            </div>
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}

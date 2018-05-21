@@ -1,0 +1,164 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}Properties{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-listing page-grid page-search-results{% endblock %}
+
+{% block content %}
+
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li class="active"><a href="{% url 'go_property_list' %}">{% trans 'Properties' %}</a></li>
+        </ol>
+    </div>
+
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <div class="row">
+            <!-- Results -->
+            <div class="col-md-9 col-sm-9">
+                <section id="results">
+                    <header><h1>{% trans 'Properties' %}</h1></header>
+                    {% comment %}
+                    <section id="search-filter">
+                        <figure><h3><i class="fa fa-search"></i>Search Results:</h3>
+                            <span class="search-count">28</span>
+                            <div class="sorting">
+                                <div class="form-group">
+                                    <select name="sorting">
+                                        <option value="">Sort By</option>
+                                        <option value="1">Lowest price first</option>
+                                        <option value="2">Highest price first</option>
+                                        <option value="3">Date added</option>
+                                    </select>
+                                </div><!-- /.form-group -->
+                            </div>
+                        </figure>
+                    </section>
+                    {% endcomment %}
+                    <section id="properties">
+                    <div class="row">
+                        {% for p_basic in property_basic %}
+                        <div class="col-md-4 col-sm-4">
+                            <div class="property equal-height">
+                                <figure class="tag status">{{ p_basic.status.title }}</figure>
+                                {% comment %}
+                                <figure class="ribbon">Sold</figure>
+                                {% endcomment %}
+                                {% comment %}
+                                <figure class="type" title="{{ p_basic.type }}"><img src="/static/images/property-types/{{ p_basic.type|lower }}.png"></figure>
+                                {% endcomment %}
+                                <a href="{{ p_basic.get_absolute_url }}">{% comment %} {% url 'go_property_detail' slug=p_basic.slug %} {% endcomment %}
+                                    <div class="property-image">
+                                        {% if p_basic.get_primary_image %}
+                                            {% thumbnail p_basic.get_primary_image "213x159" format="PNG" crop="center" as im %}
+                                                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ p_basic.type }} for {{ p_basic.status }}">
+                                            {% endthumbnail %}
+                                        {% else %}
+                                            <img alt="{{ p_basic.type }} for {{ important.status }}" src="{% static 'img/img_default.jpg' %}">
+                                        {% endif %}
+                                    </div>
+                                    <div class="overlay">
+                                        <div class="info">
+                                            <div class="tag price">$ {{ p_basic.price }}</div>
+                                            <h3>{{ p_basic.title }}</h3>
+                                            <figure>{{ p_basic.state }}, {{ p_basic.country }} {{ p_basic.zip_code }}</figure>
+                                        </div>
+                                        <ul class="additional-info">
+                                            <li>
+                                                <header>{% trans 'Area' %}:</header>
+                                                <figure>{{ p_basic.area }} m<sup>2</sup></figure>
+                                            </li>
+                                            <li>
+                                                <header>{% trans 'Bedrooms' %}:</header>
+                                                <figure>{{ p_basic.bedroom }}</figure>
+                                            </li>
+                                            <li>
+                                                <header>{% trans 'Bathrooms' %}:</header>
+                                                <figure>{{ p_basic.bathroom }}</figure>
+                                            </li>
+                                            <li>
+                                                <header>{% trans 'Garages' %}:</header>
+                                                <figure>{{ p_basic.garage }}</figure>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </a>
+                            </div><!-- /.property -->
+                        </div><!-- /.col-md-3 -->
+                        {% endfor %}
+                    </div><!-- /.row-->
+
+                    <!-- Pagination -->
+                    <div class="center">
+                        <ul class="pagination">
+                            {% for num in page_obj.paginator.page_range %}
+                            <li {% if page_obj.number == num %}class="active"{% endif %}><a href="?page={{ num }}">{{ num }}</a></li>
+                            {% endfor %}
+                        </ul><!-- /.pagination-->
+                    </div><!-- /.center-->
+
+                    <section id="advertising">
+                        <a href="{% url 'go_property_add' %}">
+                            <div class="banner">
+                                <div class="wrapper">
+                                    <span class="title">{% trans 'Do you want your property to be listed here?' %}</span>
+                                    <span class="submit">{% trans 'Submit it now!' %} <i class="fa fa-plus-square"></i></span>
+                                </div>
+                            </div><!-- /.banner-->
+                        </a>
+                    </section><!-- /#adveritsing-->
+
+                    </section><!-- /#properties-->
+                </section><!-- /#results -->
+            </div><!-- /.col-md-9 -->
+            <!-- end Results -->
+
+            {% include "sidebar/sidebar_right.html" %}
+
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/icheck.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jshashtable-2.1_src.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.numberformatter-1.2.3.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tmpl.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.dependClass-0.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/draggable-0.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.slider.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+{% endblock %}

@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load thumbnail %}
+{% load staticfiles %}
+
+{% block title %}{% trans "Profile" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fileinput.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-profile page-account{% endblock %}
+
+{% block content %}
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li><a href="{% url 'go_profile' %}">{% trans 'Account' %}</a></li>
+            <li class="active">{% trans 'Profile' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <div class="row">
+        <!-- sidebar -->
+        <div class="col-md-3 col-sm-2">
+            {% include 'sidebar/sidebar_accounts.html' %}
+        </div><!-- /.col-md-3 -->
+        <!-- end Sidebar -->
+            <!-- My Properties -->
+            <div class="col-md-9 col-sm-10">
+                <section id="profile">
+                    <header><h1>{% trans 'Profile' %}</h1></header>
+                    <div class="account-profile">
+                        {% if success %}
+                            {% if is_ok %}
+                                <div class="alert alert-success" role="alert">
+                                    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                    {{ msg }}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                                    {{ msg }}
+                                </div>
+                            {% endif %}
+                        {% endif %}
+                        <div class="row">
+                            <form role="form" id="form-account-profile" method="post" action="." enctype="multipart/form-data">
+                                <div class="col-md-3 col-sm-3">
+                                    {% if request.user.userprofile.avatar %}
+                                        {% thumbnail request.user.userprofile.avatar "152" format="PNG" as im %}
+                                            <img alt="{{ request.user.first_name }} {{ request.user.last_name }}" class="image" src="{{ im.url }}" />
+                                        {% endthumbnail %}
+                                    {% else %}
+                                        <img alt="" class="image" src="{% static 'img/agent-01.jpg' %}">
+                                    {% endif %}
+                                    {% comment %}
+                                    <img alt="" class="image" src="http://www.gravatar.com/avatar/{{ gravatar }}?s=35&d=identicon&r=PG">
+                                    {% endcomment %}
+                                    {{ form2.avatar.errors }}
+                                    {{ form2.avatar }}
+                                </div>
+                                <div class="col-md-9 col-sm-9">
+                                    {% csrf_token %}
+                                    {% comment %}
+                                    <div class="checkbox switch" id="agent-switch" data-agent-state="is-agent">
+                                        <label>
+                                            I am an agent<input type="checkbox">
+                                        </label>
+                                    </div>
+                                    <section id="agency">
+                                        <h3>My Agency</h3>
+                                        <div class="row">
+                                            <div class="col-md-4 col-sm-4">
+                                                <label for="account-agency">Select your agency:</label>
+                                            </div>
+                                            <div class="col-md-8 col-sm-8">
+                                                <div class="form-group">
+                                                    <select name="account-agency" id="account-agency">
+                                                        <option value="">Agency</option>
+                                                        <option value="1">Estate+</option>
+                                                        <option value="2">Northfolk Eastate</option>
+                                                        <option value="3">Maximum Properties</option>
+                                                        <option value="4">Edd's Homes</option>
+                                                        <option value="5">Will & Scotch</option>
+                                                    </select>
+                                                </div><!-- /.form-group -->
+                                            </div>
+                                        </div>
+                                    </section>
+                                    {% endcomment %}
+                                    <section id="contact">
+                                        <h3>{% trans 'Contact' %}</h3>
+                                        <dl class="contact-fields">
+                                            <dt><label for="form-account-name">{% trans 'Firstname' %}:</label></dt>
+                                            <dd><div class="form-group">
+                                                {{ form.first_name.errors }}
+                                                {{ form.first_name }}
+                                            </div><!-- /.form-group --></dd>
+                                            <dt><label for="form-account-name">{% trans 'Lastname' %}:</label></dt>
+                                            <dd><div class="form-group">
+                                                {{ form.last_name.errors }}
+                                                {{ form.last_name }}
+                                            </div><!-- /.form-group --></dd>
+                                            {% comment %}
+                                            <dt><label for="form-account-name">{% trans 'Image' %}:</label></dt>
+                                            <dd><div class="form-group">
+                                                {{ form.avatar.errors }}
+                                                {{ form.avatar }}
+                                            </div><!-- /.form-group --></dd>
+                                            {% endcomment %}
+                                            {% comment %}
+                                            <dt><label for="form-account-phone">{% trans 'Phone' %}:</label></dt>
+                                            <dd><div class="form-group">
+                                                <input type="text" class="form-control" id="form-account-phone" name="form-account-phone" value="(123) 456 789">
+                                            </div><!-- /.form-group --></dd>
+                                            <dt><label for="form-account-email">{% trans 'Email' %}:</label></dt>
+                                            <dd><div class="form-group">
+                                                <input type="text" class="form-control" id="form-account-email" name="form-account-phone" value="jeffrey.scott@example.com">
+                                            </div><!-- /.form-group --></dd>
+                                            <dt><label for="form-account-skype">{% trans 'Skype' %}:</label></dt>
+                                            <dd><div class="form-group">
+                                                <input type="text" class="form-control" id="form-account-skype" name="form-account-skype" value="jeffrey.scott">
+                                            </div><!-- /.form-group --></dd>
+                                            {% endcomment %}
+                                        </dl>
+                                    </section>
+                                    <section id="about-me">
+                                        <h3>{% trans 'About Me' %}</h3>
+                                        <div class="form-group">
+                                            {{ form2.about_me.errors }}
+                                            {{ form2.about_me }}
+                                        </div><!-- /.form-group -->
+                                    </section>
+                                    <section id="social">
+                                        <h3>{% trans 'My Social Network' %}</h3>
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-twitter"></i></span>
+                                                {{ form2.account_tw.errors }}
+                                                {{ form2.account_tw }}
+                                            </div>
+                                        </div><!-- /.form-group -->
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-facebook"></i></span>
+                                                {{ form2.account_fb.errors }}
+                                                {{ form2.account_fb }}
+                                            </div>
+                                        </div><!-- /.form-group -->
+                                        {% comment %}
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-pinterest"></i></span>
+                                                <input type="text" class="form-control" id="account-social-pinterest" name="account-social-pinterest">
+                                            </div>
+                                        </div><!-- /.form-group -->
+                                        {% endcomment %}
+                                        <div class="form-group clearfix">
+                                            <button type="submit" class="btn pull-right btn-default" name="update_profile" id="account-submit">Save Changes</button>
+                                        </div><!-- /.form-group -->
+                                    </section>
+                                </div><!-- /.col-md-9 -->
+                            </form><!-- /#form-contact -->
+                            <form role="form" id="form-account-password" method="post" action=".">
+                                <div class="col-md-9 col-sm-9 col-md-offset-3 col-sm-offset-3">
+                                    <section id="change-password">
+                                        <header><h2>{% trans 'Change Your Password' %}</h2></header>
+                                        <div class="row">
+                                            <div class="col-md-6 col-sm-6">
+                                                <form role="form" id="form-account-password" method="post" action="">
+                                                    {% csrf_token %}
+                                                    <div class="form-group">
+                                                        <label for="form-account-password-current">{% trans 'Current Password' %}</label>
+                                                        {{ form3.old_password.errors }}
+                                                        {{ form3.old_password }}
+                                                    </div><!-- /.form-group -->
+                                                    <div class="form-group">
+                                                        <label for="form-account-password-new">{% trans 'New Password' %}</label>
+                                                        {{ form3.password.errors }}
+                                                        {{ form3.password }}
+                                                    </div><!-- /.form-group -->
+                                                    <div class="form-group">
+                                                        <label for="form-account-password-confirm-new">{% trans 'Confirm New Password' %}</label>
+                                                        {{ form3.repassword.errors }}
+                                                        {{ form3.repassword }}
+                                                    </div><!-- /.form-group -->
+                                                    <div class="form-group clearfix">
+                                                        <button type="submit" class="btn btn-default" name="update_pwd" id="form-account-password-submit">{% trans 'Change Password' %}</button>
+                                                    </div><!-- /.form-group -->
+                                                </form><!-- /#form-account-password -->
+                                            </div>
+                                            <div class="col-md-6 col-sm-6">
+                                                <strong>{% trans 'Hint' %}:</strong>
+                                                <p>
+                                                    {% trans 'Complete only if you like to change your password' %}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div><!-- /.col-md-9 -->
+                            </form><!-- /#form-contact -->
+                        </div><!-- /.row -->
+                    </div><!-- /.account-profile -->
+                </section><!-- /#profile -->
+            </div><!-- /.col-md-9 -->
+            <!-- end My Properties -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/icheck.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script_custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+
+{% endblock %}

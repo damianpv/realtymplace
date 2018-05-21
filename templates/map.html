@@ -1,0 +1,93 @@
+{% load staticfiles %}
+{% load i18n %}
+    <div class="container">
+        {% comment %}
+        <div class="geo-location-wrapper">
+            <span class="btn geo-location"><i class="fa fa-map-marker"></i><span class="text">Find My Position</span></span>
+        </div>
+        {% endcomment %}
+    </div>
+
+    <!-- Map -->
+    <div id="map" class="has-parallax"></div>
+    <!-- end Map -->
+
+    <!-- Search Box -->
+    <div class="search-box-wrapper">
+        <div class="search-box-inner">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-4">
+                        <div class="search-box map">
+                            <form role="form" id="form-map" class="form-map form-search">
+                                {% comment %}
+                                <h2>Search</h2>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" id="property_name" placeholder="Name">
+                                </div>
+                                {% endcomment %}
+                                <div class="form-group">
+                                    <select name="property_status" id="property_status">
+                                        <option value="">{% trans 'Status' %}</option>
+                                    </select>
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <select name="property_type" id="property_type">
+                                        <option value="">{% trans 'Property Type' %}</option>
+                                    </select>
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <select name="property_country" id="property_country">
+                                        <option value="">{% trans 'Country' %}</option>
+                                    </select>
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <select name="property_state" id="property_state">
+                                        <option value="">{% trans 'State' %}</option>
+                                    </select>
+                                </div><!-- /.form-group -->
+                                {% comment %}
+                                <div class="form-group">
+                                    <div class="price-range">
+                                        <input id="price-input" type="text" name="price" value="1000;99999999">
+                                    </div>
+                                </div>
+                                {% endcomment %}
+                                <div class="form-group">
+                                    <button type="submit" id="btn-search-map" class="btn btn-default">{% trans 'Show in map' %}</button>
+                                </div><!-- /.form-group -->
+                            </form><!-- /#form-map -->
+                        </div><!-- /.search-box.map -->
+                    </div><!-- /.col-md-3 -->
+                </div><!-- /.row -->
+            </div><!-- /.container -->
+        </div><!-- /.search-box-inner -->
+    </div>
+    <!-- end Search Box -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            console.log('{{ location_country_pk }}')
+            setTimeout(function () {
+                $('#property_country option[value="{{ location_country_pk }}"]').prop("selected",true);
+            }, 2000);
+
+            get_state({{ location_country_pk|safe }}, {{ location_state_pk|safe }});
+            $('#property_country').change(function(event){
+		        get_state($('#property_country').val());
+		    });
+            function get_state(id_country, id_state) {
+                $.get("/api/v1.0/state/", {country_id: id_country}, function(data){
+		            var options = '<option value="">Seleccione uno</option>';
+		            for (var i = 0; i < data.length; i++){
+                        options += '<option value="' + data[i]["id_state"] + '">' + data[i]['state'] +'</option>'
+		            }
+		            $('#property_state').html(options);
+                    if (id_state > 0) {
+		                $('#property_state option[value=' + id_state + ']').prop("selected",true).change();
+                    } else {
+                        $("#property_state option:first").attr('selected', 'selected');
+                    }
+		        }, "json");
+            }
+        });
+    </script>

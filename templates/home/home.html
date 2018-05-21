@@ -1,0 +1,295 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}{% trans 'Home' %}{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-homepage{% endblock %}
+
+{% block content %}
+
+    {% include "map.html" %}
+
+    {% comment %}
+    <section id="banner">
+        <div class="block has-dark-background background-color-default-darker center text-banner">
+            <div class="container">
+                <h1 class="no-bottom-margin no-border">Zoner Is Fully Loaded Real Estate Template with <a href="#" class="text-underline">Tons of Features</a>!</h1>
+            </div>
+        </div>
+    </section><!-- /#banner -->
+    {% endcomment %}
+    {% comment %}
+    <section id="our-services" class="block">
+        <div class="container">
+            <header class="section-title"><h2>Our Services</h2></header>
+            <div class="row">
+                <div class="col-md-4 col-sm-4">
+                    <div class="feature-box equal-height">
+                        <figure class="icon"><i class="fa fa-folder"></i></figure>
+                        <aside class="description">
+                            <header><h3>Wide Range of Properties</h3></header>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
+                            <a href="properties-listing.html" class="link-arrow">Read More</a>
+                        </aside>
+                    </div><!-- /.feature-box -->
+                </div><!-- /.col-md-4 -->
+                <div class="col-md-4 col-sm-4">
+                    <div class="feature-box equal-height">
+                        <figure class="icon"><i class="fa fa-users"></i></figure>
+                        <aside class="description">
+                            <header><h3>14 Agents for Your Service</h3></header>
+                            <p>Aliquam gravida magna et fringilla convallis. Pellentesque habitant morbi </p>
+                            <a href="agents-listing.html" class="link-arrow">Read More</a>
+                        </aside>
+                    </div><!-- /.feature-box -->
+                </div><!-- /.col-md-4 -->
+                <div class="col-md-4 col-sm-4">
+                    <div class="feature-box equal-height">
+                        <figure class="icon"><i class="fa fa-money"></i></figure>
+                        <aside class="description">
+                            <header><h3>Best Price Guarantee!</h3></header>
+                            <p>Phasellus non viverra tortor, id auctor leo. Suspendisse id nibh placerat</p>
+                            <a href="#" class="link-arrow">Read More</a>
+                        </aside>
+                    </div><!-- /.feature-box -->
+                </div><!-- /.col-md-4 -->
+            </div><!-- /.row -->
+        </div><!-- /.container -->
+    </section><!-- /#our-services -->
+    {% endcomment %}
+    <section id="price-drop" class="block">
+        <div class="container">
+            <header class="section-title">
+                <h2>{% trans 'Recent' %}</h2>
+                <a href="{% url 'go_property_list' %}" class="link-arrow">{% trans 'View all' %}</a>
+            </header>
+            <div class="row">
+                {% for recent in property_recent %}
+                <div class="col-md-3 col-sm-6">
+                    <div class="property">
+                        <figure class="tag status">{{ recent.status }}</figure>
+                        <a href="{{ recent.get_absolute_url }}">
+                            <div class="property-image">
+                                {% if recent.get_primary_image %}
+                                    {% thumbnail recent.get_primary_image "213x159" format="PNG" crop="center" as im %}
+                                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ recent.type }} for {{ recent.status }}">
+                                    {% endthumbnail %}
+                                {% else %}
+                                    <img alt="{{ recent.type }} for {{ recent.status }}" src="{% static 'img/img_default.jpg' %}">
+                                {% endif %}
+                            </div>
+                            <div class="overlay">
+                                <div class="info">
+                                    <div class="tag price">$ {{ recent.price }}</div>
+                                    <h3>{{ recent.title }}{% comment %}{{ recent.pk }} {{ recent.type }} for {{ recent.status }}{% endcomment %}</h3>
+                                    <figure>{{ recent.city }}, {{ recent.state.code }} {{ recent.zip_code|safe }}</figure>
+                                </div>
+                                <ul class="additional-info">
+                                    <li>
+                                        <header>{% trans 'Area' %}:</header>
+                                        <figure>{{ recent.area }}m<sup>2</sup></figure>
+                                    </li>
+                                    <li>
+                                        <header>{% trans 'Bedroom' %}:</header>
+                                        <figure>{{ recent.bedroom }}</figure>
+                                    </li>
+                                    <li>
+                                        <header>{% trans 'Bathroom' %}:</header>
+                                        <figure>{{ recent.bathroom }}</figure>
+                                    </li>
+                                    <li>
+                                        <header>{% trans 'Garage' %}:</header>
+                                        <figure>{{ recent.garage }}</figure>
+                                    </li>
+                                </ul>
+                            </div>
+                        </a>
+                    </div><!-- /.property -->
+                </div><!-- /.col-md-3 -->
+                {% endfor %}
+            </div><!-- /.row-->
+        </div><!-- /.container -->
+    </section><!-- /#price-drop -->
+
+    <section id="ad" class="block">
+        <div class="container">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <!-- ads_home -->
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-9171372872583544"
+                 data-ad-slot="2196473112"
+                 data-ad-format="auto"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </section>
+
+    <section id="new-properties" class="block">
+        <div class="container">
+            <header class="section-title">
+                <h2>Destacadas</h2>
+                <a href="{% url 'go_property_list' %}" class="link-arrow">{% trans 'View all' %}</a>
+            </header>
+            <div class="row">
+                {% for important in property_important %}
+                <div class="col-md-3 col-sm-6">
+                    <div class="property">
+                        <figure class="tag status">{{ important.status }}</figure>
+                        <a href="{{ important.get_absolute_url }}">
+                            <div class="property-image">
+                                {% if important.get_primary_image %}
+                                    {% thumbnail important.get_primary_image "213x159" format="PNG" crop="center" as im %}
+                                        <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ important.type }} for {{ important.status }}">
+                                    {% endthumbnail %}
+                                {% else %}
+                                    <img alt="{{ important.type }} for {{ important.status }}" src="{% static 'img/img_default.jpg' %}">
+                                {% endif %}
+                            </div>
+                            <div class="overlay">
+                                <div class="info">
+                                    <div class="tag price">$ {{ important.price }}</div>
+                                    <h3>{{ important.title }}{% comment %}{{ important.pk }} {{ important.type }} for {{ important.status }}{% endcomment %}</h3>
+                                    <figure>{{ important.city }}, {{ important.state.code }} {{ important.zip_code|safe }}</figure>
+                                </div>
+                                <ul class="additional-info">
+                                    <li>
+                                        <header>{% trans 'Area' %}:</header>
+                                        <figure>{{ important.area }}m<sup>2</sup></figure>
+                                    </li>
+                                    <li>
+                                        <header>{% trans 'Bedroom' %}:</header>
+                                        <figure>{{ important.bedroom }}</figure>
+                                    </li>
+                                    <li>
+                                        <header>{% trans 'Bathroom' %}:</header>
+                                        <figure>{{ important.bathroom }}</figure>
+                                    </li>
+                                    <li>
+                                        <header>{% trans 'Garage' %}:</header>
+                                        <figure>{{ important.garage }}</figure>
+                                    </li>
+                                </ul>
+                            </div>
+                        </a>
+                    </div><!-- /.property -->
+                </div><!-- /.col-md-3 -->
+                {% endfor %}
+            </div><!-- /.row-->
+        </div><!-- /.container-->
+    </section><!-- /#new-properties-->
+
+    {% comment %}
+    <section id="testimonials" class="block">
+        <div class="container">
+            <header class="section-title"><h2>{% trans 'Testimonials' %}</h2></header>
+            <div class="owl-carousel testimonials-carousel">
+                <blockquote class="testimonial">
+                    <figure>
+                        <div class="image">
+                            <img alt="" src="{% static 'img/client-01.jpg' %}">
+                        </div>
+                    </figure>
+                    <aside class="cite">
+                        <p>Fusce risus metus, placerat in consectetur eu, porttitor a est sed sed dolor lorem cras adipiscing</p>
+                        <footer>Natalie Jenkins</footer>
+                    </aside>
+                </blockquote>
+                <blockquote class="testimonial">
+                    <figure>
+                        <div class="image">
+                            <img alt="" src="{% static 'img/client-01.jpg' %}">
+                        </div>
+                    </figure>
+                    <aside class="cite">
+                        <p>Fusce risus metus, placerat in consectetur eu, porttitor a est sed sed dolor lorem cras adipiscing</p>
+                        <footer>Natalie Jenkins</footer>
+                    </aside>
+                </blockquote>
+            </div><!-- /.testimonials-carousel -->
+        </div><!-- /.container -->
+    </section><!-- /#testimonials -->
+    {% endcomment %}
+
+    <section id="advertising" class="block">
+        <div class="container">
+            <a href="{% url 'go_property_add' %}">
+                <div class="banner">
+                    <div class="wrapper">
+                        <span class="title">{% trans 'Do you want your property to be listed here?' %}</span>
+                        <span class="submit">{% trans 'Submit it now!' %} <i class="fa fa-plus-square"></i></span>
+                    </div>
+                </div><!-- /.banner-->
+            </a>
+        </div>
+    </section><!-- /#adveritsing-->
+
+    {% comment %}
+    <section id="partners" class="block">
+        <div class="container">
+            <header class="section-title"><h2>Our Partners</h2></header>
+            <div class="logos">
+                <div class="logo"><a href=""><img src="{% static 'img/logo-partner-01.png' %}" alt=""></a></div>
+                <div class="logo"><a href=""><img src="{% static 'img/logo-partner-02.png' %}" alt=""></a></div>
+                <div class="logo"><a href=""><img src="{% static 'img/logo-partner-03.png' %}" alt=""></a></div>
+                <div class="logo"><a href=""><img src="{% static 'img/logo-partner-04.png' %}" alt=""></a></div>
+                <div class="logo"><a href=""><img src="{% static 'img/logo-partner-05.png' %}" alt=""></a></div>
+            </div>
+        </div><!-- /.container -->
+    </section><!-- /#partners -->
+    {% endcomment %}
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/markerwithlabel_packed.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/infobox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/owl.carousel.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.placeholder.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/icheck.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.vanillabox-0.1.5.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jshashtable-2.1_src.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.numberformatter-1.2.3.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tmpl.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.dependClass-0.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/draggable-0.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.slider.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/markerclusterer_packed.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom-map.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script_custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+    <script>
+        var query = 'country={{ location_country_pk }}&state={{ location_state_pk }}';
+        createHomepageGoogleMap(_latitude,_longitude,static_url,api_url,query,zoom,{{ location_country_pk }},{{ location_state_pk }},0);
+    </script>
+
+{% endblock %}

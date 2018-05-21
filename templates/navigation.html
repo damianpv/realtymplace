@@ -1,0 +1,96 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load account %}
+    <div class="navigation">
+        <div class="secondary-navigation">
+            <div class="container">
+                <div class="contact">{% comment %}
+                    <form action="{% url 'set_language' %}" method="post">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                    <select name="language">
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% for language in languages %}
+                    <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
+                        {{ language.name_local }} ({{ language.code }})
+                    </option>
+                    {% endfor %}
+                    </select>
+                    <input type="submit" value="Go" />
+                    </form>
+                    {% comment %}<figure><strong>{% trans 'Phone' %}:</strong>+1 800-991-3842</figure>{% endcomment %}
+                    <figure><strong>{% trans 'Email' %}:</strong>{% trans 'contact@realtymplace.com' %}</figure>
+                </div>
+                <div class="user-area">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'go_profile' %}" class="promoted">
+                        <i class="fa fa-user"></i>
+                        {% trans 'Profile' %}
+                    </a>
+                    <a href="{% url 'go_my_agency_list' %}" class="promoted">
+                        <i class="fa fa-home"></i>
+                        {% trans 'My Agencies' %}
+                        <span class="badge">{{ agency_num }}</span>
+                    </a>
+                    <a href="{% url 'go_my_property_list' %}" class="promoted">
+                        <i class="fa fa-home"></i>
+                        {% trans 'My Properties' %}
+                        <span class="badge">{{ property_num }}</span>
+                    </a>
+                    <a href="{% url 'go_my_bookmarked_list' %}" class="promoted">
+                        <i class="fa fa-heart"></i>
+                        {% trans 'Bookmarked' %}
+                        <span class="badge">{{ bookmark_num }}</span>
+                    </a>
+                    <a href="{% url 'account_logout' %}" class="promoted">
+                        <i class="fa fa-heart"></i>
+                        {% trans 'Logout' %}
+                    </a>
+                    {% else %}
+                    <a href="{% url 'account_signup' %}" class="promoted"><strong>{% trans 'Sign Up' %}</strong></a>
+                    <a href="{% url 'account_login' %}" class="promoted">{% trans 'Sign In' %}</a>
+                    {% endif %}
+                    <a href="{{ CONST_TWITTER }}" target="_blank" class="fa fa-twitter btn-blue-white"></a>
+                    <a href="{{ CONST_FACEBOOK }}" target="_blank" class="fa fa-facebook btn-blue-white" style="margin-right: 5px;"></a>
+                    {% comment %}
+                    <a href="" class="fa fa-google-plus btn-blue-white"></a>
+                    <a href="" class="fa fa-rss btn-blue-white"></a>
+                    {% endcomment %}
+                    <div class="fb-like" data-href="https://www.facebook.com/pages/RealtyMPlace-ES/1461487054112611" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false"></div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <header class="navbar" id="top" role="banner">
+                <div class="navbar-header">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <div class="navbar-brand nav" id="brand">
+                        <a href="{% url 'go_home' %}"><img src="{% static 'images/logo.png' %}" alt="RealtyMPlace"></a>
+                    </div>
+                </div>
+                <nav class="collapse navbar-collapse bs-navbar-collapse navbar-right" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+                        {% comment %}
+                        <li><a href="{% url 'go_agency_list' %}">{% trans 'Agencies' %}</a></li>
+                        {% endcomment %}
+                        <li><a href="{% url 'go_property_list' %}">{% trans 'Properties' %}</a></li>
+                        {% comment %}
+                        <li><a href="{% url 'go_pricing' %}">{% trans 'Pricing' %}</a></li>
+                        {% endcomment %}
+                        <li><a href="{% url 'go_contact' %}">{% trans 'Contact' %}</a></li>
+                    </ul>
+                </nav><!-- /.navbar collapse-->
+                {% if user.is_authenticated %}
+                <div class="add-your-property">
+                    <a href="{% url 'go_property_add' %}" class="btn btn-default"><i class="fa fa-plus"></i><span class="text">{% trans 'Add Your Property' %}</span></a>
+                </div>
+                {% endif %}
+            </header><!-- /.navbar -->
+        </div><!-- /.container -->
+    </div><!-- /.navigation -->

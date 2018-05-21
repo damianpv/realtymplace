@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% load thumbnail %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}{% trans 'Bookmarked' %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-my-properties page-account{% endblock %}
+
+{% block content %}
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li><a href="{% url 'go_profile' %}">{% trans 'Account' %}</a></li>
+            <li class="active">{% trans 'Bookmarked' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <div class="row">
+        <!-- sidebar -->
+        <div class="col-md-3 col-sm-2">
+            {% include 'sidebar/sidebar_accounts.html' %}
+        </div><!-- /.col-md-3 -->
+        <!-- end Sidebar -->
+            <!-- My Properties -->
+            <div class="col-md-9 col-sm-10">
+                <section id="bookmarked-properties">
+                    <header><h1>{% trans 'Bookmarked' %}</h1></header>
+                    <div class="my-properties">
+                        {% if bookmarked_list %}
+                        <div class="grid">
+                            {% for bookmarked in bookmarked_list %}
+                            <div class="property masonry">
+                                <div class="inner">
+                                    <a href="{{ bookmarked.property.get_absolute_url }}">
+                                        <div class="property-image">
+                                            <div class="overlay">
+                                                <div class="info">
+                                                    <div class="tag price">$ {{ bookmarked.property.price }}</div>
+                                                </div>
+                                            </div>
+                                            {% if bookmarked.property.get_primary_image %}
+                                                {% thumbnail bookmarked.property.get_primary_image "223x161" format="PNG" crop="center" as im %}
+                                                    <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}" alt="{{ bookmarked.property.title }}">
+                                                {% endthumbnail %}
+                                            {% else %}
+                                                <img alt="{{ bookmarked.property.title }}" src="{% static 'img/img_default.jpg' %}">
+                                            {% endif %}
+                                        </div>
+                                    </a>
+                                    <aside>
+                                        <header>
+                                            <a href="{{ bookmarked.property.get_absolute_url }}"><h3>{{ bookmarked.property.title }}</h3></a>
+                                            <figure>{{ bookmarked.property.address }}, {{ bookmarked.property.state.code }} {{ bookmarked.property.zip_code }}</figure>
+                                        </header>
+                                        <p>{{ bookmarked.property.description }}</p>
+                                        <dl>
+                                            <dt>{% trans 'Status' %}:</dt>
+                                            <dd>{{ bookmarked.property.status }}</dd>
+                                            <dt>{% trans 'Area' %}:</dt>
+                                            <dd>{{ bookmarked.property.area }} m<sup>2</sup></dd>
+                                            <dt>{% trans 'Beds' %}:</dt>
+                                            <dd>{{ bookmarked.property.bedroom }}</dd>
+                                            <dt>{% trans 'Baths' %}:</dt>
+                                            <dd>{{ bookmarked.property.bathroom }}</dd>
+                                        </dl>
+                                        <a href="{{ bookmarked.property.get_absolute_url }}" class="link-arrow">{% trans 'Read More' %}</a>
+                                    </aside>
+                                </div>
+                            </div><!-- /.property -->
+                            {% endfor %}
+                        </div><!-- /js-masonry-->
+                        <!-- Pagination -->
+                        <div class="center">
+                            <ul class="pagination">
+                                {% for num in page_obj.paginator.page_range %}
+                                <li {% if page_obj.number == num %}class="active"{% endif %}><a href="?page={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+                            </ul><!-- /.pagination-->
+                        </div><!-- /.center-->
+                        {% else %}
+                        <table class="table">
+                            <tr>
+                                <td>{% trans 'No data to display.' %}</td>
+                            </tr>
+                        </table>
+                        {% endif %}
+                    </div>
+                </section><!-- /#my-properties -->
+            </div><!-- /.col-md-9 -->
+            <!-- end My Properties -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.magnific-popup.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/masonry.pkgd.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/scrollReveal.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script_custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+
+{% endblock %}

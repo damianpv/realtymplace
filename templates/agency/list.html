@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}Agencies{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-agencies-listing{% endblock %}
+
+{% block content %}
+
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li class="active"><a href="{% url 'go_agency_list' %}">{% trans 'Agencies' %}</a></li>
+        </ol>
+    </div>
+
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <div class="row">
+            <!-- Agent Detail -->
+            <div class="col-md-9 col-sm-9">
+                <section id="agencies-listing">
+                    <header><h1>Agencies Listing</h1></header>
+                    {% for agencies in agencies_list %}
+                    <div class="agency">
+                        <a href="agency-detail.html" class="agency-image">
+                            {% if agencies.logo %}
+                                <img alt="{{ agencies.title }}" src="{{ MEDIA_URL }}{{ agencies.logo }}">
+                            {% else %}
+                                Imagen
+                            {% endif %}
+                        </a>
+                        <div class="wrapper">
+                            <header><a href="{% url 'go_agency_detail' agencies.slug %}"><h2>{{ agencies.title }}</h2></a></header>
+                            <dl>
+                                <dt>Phone:</dt>
+                                <dd>{{ agencies.phone }}</dd>
+                                <dt>Mobile:</dt>
+                                <dd>{{ agencies.cell }}</dd>
+                                <dt>Email:</dt>
+                                <dd><a href="mailto:{{ agencies.email }}">{{ agencies.email }}</a></dd>
+                                {% comment %}
+                                <dt>Skype:</dt>
+                                <dd>genius.properties</dd>
+                                {% endcomment %}
+                            </dl>
+                            <address>
+                                <h3>Address</h3>
+                                <strong>{{ agencies.title }}</strong><br>
+                                {{ agencies.address }}<br>
+                                {{ agencies.city }}, {{ agencies.state }} {{ agencies.country }} {{ agencies.zip_code }}
+                            </address>
+                        </div>
+                    </div><!-- /.agency -->
+                    {% endfor %}
+
+                </section><!-- /#agencies-listing -->
+            </div><!-- /.col-md-9 -->
+            <!-- end Agent Detail -->
+
+            {% include "sidebar/sidebar_right.html" %}
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/icheck.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jshashtable-2.1_src.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.numberformatter-1.2.3.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tmpl.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.dependClass-0.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/draggable-0.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.slider.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}{% trans "My Agency" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fileinput.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-my-properties page-account{% endblock %}
+
+{% block content %}
+
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li><a href="{% url 'go_profile' %}">{% trans 'Account' %}</a></li>
+            <li class="active">{% trans 'My Agencies' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <div class="row">
+        <!-- sidebar -->
+        <div class="col-md-3 col-sm-2">
+            {% include 'sidebar/sidebar_accounts.html' %}
+        </div><!-- /.col-md-3 -->
+        <!-- end Sidebar -->
+            <!-- My Properties -->
+            <div class="col-md-9 col-sm-10">
+                <section id="my-properties">
+                    <header>
+                        <h1>{% trans 'My Agency' %}</h1>
+                        <a href="{% url 'go_my_agency_add' %}" class="btn btn-default btn_add_abs"><i class="fa fa-plus"></i> <span class="text">{% trans 'Create agency' %}</span></a>
+                    </header>
+                    <div class="my-properties">
+                        {% if my_agency %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>{% trans 'Agency' %}</th>
+                                    <th></th>
+                                    <th>{% trans 'Last update' %}</th>
+                                    <th>{% trans 'Views' %}</th>
+                                    <th style="width: 12%;">{% trans 'Actions' %}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for my_agency in my_agency %}
+                                    <tr>
+                                        <td class="image">
+                                            <a href="{% url 'go_agency_detail' slug=my_agency.slug %}">
+                                                {% if my_agency.logo %}
+                                                    <img alt="{{ my_agency.title }}" src="{{ MEDIA_URL }}{{ my_agency.logo }}" />
+                                                {% else %}
+                                                    <img alt="{{ my_agency.title }}" src="{% static 'img/properties/property-04.jpg' %}">
+                                                {% endif %}
+                                            </a>
+                                        </td>
+                                        <td class="">
+                                            <div class="inner">
+                                            <a href="{% url 'go_my_agency_edit' pk=my_agency.pk %}"><h2>{{ my_agency.title }}</h2></a>
+                                            <figure>{{ my_agency.address }}</figure>
+                                        </div>
+                                        </td>
+                                        <td>
+                                            {{ my_agency.updated_at|date:"F d, Y" }}
+                                        </td>
+                                        <td>{{ my_agency.visit }}</td>
+                                        <td class="actions col-md-3 col-sm-3">
+                                            <div class="inner">
+                                                <a href="{% url 'go_my_agency_edit' pk=my_agency.pk %}" class="edit"><i class="fa fa-pencil"></i>{% trans 'Edit' %}</a>
+                                                <a href="{% url 'go_agency_detail' slug=my_agency.slug %}" class="edit"><i class="fa fa-pencil"></i> {% trans 'Preview' %}</a>
+                                                <a href="{% url 'go_my_agency_delete' pk=my_agency.pk %}" class="delete"><i class="fa fa-trash-o"></i> {% trans 'Delete' %}</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div><!-- /.table-responsive -->
+
+                        {% comment %}
+                        {% if page_obj.has_previous %}
+                          <a href= "?page={{ page_obj.previous_page_number }}">newer entries &lt;&lt; </a>
+                        {% endif %}
+
+                        <span class="current">
+                          &nbsp;Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}{{ page_obj.paginator.page_range }}
+                        </span>
+
+                        {% if page_obj.has_next %}
+                          <a href="?page={{ page_obj.next_page_number }}"> &gt;&gt; older entries</a>
+                        {% endif %}
+                        {% endcomment %}
+
+                        <!-- Pagination -->
+                        <div class="center">
+                            <ul class="pagination">
+                                {% for num in page_obj.paginator.page_range %}
+                                <li {% if page_obj.number == num %}class="active"{% endif %}><a href="?page={{ num }}">{{ num }}</a></li>
+                                {% endfor %}
+                            </ul><!-- /.pagination-->
+                        </div><!-- /.center-->
+                        {% else %}
+                        <table class="table">
+                            <tr>
+                                <td>{% trans 'No data to display.' %}</td>
+                            </tr>
+                        </table>
+                        {% endif %}
+                    </div><!-- /.my-agency -->
+                </section><!-- /#my-agency -->
+            </div><!-- /.col-md-9 -->
+            <!-- end My Agency -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/icheck.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script_custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+
+{% endblock %}

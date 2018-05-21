@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}Contact{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/fileinput.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-contact{% endblock %}
+
+{% block content %}
+
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li class="active">{% trans 'Contact' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <div class="row">
+            <!-- Contact -->
+            <div class="col-md-9 col-sm-9">
+                <section id="agent-detail">
+                    <header><h1>{% trans 'Contact Us' %}</h1></header>
+
+                    <section id="contact-information">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-5">
+                                <section id="address">
+                                    {% comment %}
+                                    <header><h3>{% trans 'Address' %}</h3></header>
+                                    {% endcomment %}
+                                    <address>
+                                        <strong>RealtyMPlace</strong><br>
+                                        {% comment %}
+                                        4877 Spruce Drive<br>
+                                        West Newton, PA 15089
+                                        {% endcomment %}
+                                    </address>
+                                    {% comment %}+1 (734) 123-4567<br>{% endcomment %}
+                                    <a href="mailto:{% trans 'contact@realtymplace.com' %}">{% trans 'contact@realtymplace.com' %}</a><br>
+                                    {% comment %}<strong>skype: </strong>your.compan{% endcomment %}
+                                </section><!-- /#address -->
+                                <section id="social">
+                                    <header><h3>{% trans 'Social Profiles' %}</h3></header>
+                                    <div class="agent-social">
+                                        <a href="{{ CONST_TWITTER }}" class="fa fa-twitter btn btn-grey-dark" target="_blank"></a>
+                                        <a href="{{ CONST_FACEBOOK }}" class="fa fa-facebook btn btn-grey-dark" target="_blank"></a>
+                                        {% comment %}
+                                        <a href="#" class="fa fa-linkedin btn btn-grey-dark"></a>
+                                        {% endcomment %}
+                                    </div>
+                                </section><!-- /#social -->
+                            </div><!-- /.col-md-4 -->
+                            <div class="col-md-8 col-sm-7">
+                                {% comment %}
+                                <header><h3>Where We Are</h3></header>
+                                <div id="contact-map"></div>
+                                {% endcomment %}
+                                <img src="{% static 'images/contact.jpg' %}" alt="Contact" class="img_contact" />
+                            </div><!-- /.col-md-8 -->
+                        </div><!-- /.row -->
+                    </section><!-- /#agent-info -->
+                    <hr class="thick">
+                    <section id="form">
+                        <header><h3>Envianos un mensaje</h3></header>
+                        <form role="form" id="form-contact" action="." method="post" class="clearfix">
+                            {% csrf_token %}
+                            {% if success %}
+                                <p>Su mensaje ha sido enviado.{% comment %}{% trans 'Your message was sent.' %}{% endcomment %}</p>
+                            {% else %}
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form-contact-name">{% trans 'Name' %}<em>*</em></label>
+                                        {{ form_contact.name.errors }}
+                                        {{ form_contact.name }}
+                                    </div><!-- /.form-group -->
+                                </div><!-- /.col-md-6 -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="form-contact-email">{% trans 'Email' %}<em>*</em></label>
+                                        {{ form_contact.email.errors }}
+                                        {{ form_contact.email }}
+                                    </div><!-- /.form-group -->
+                                </div><!-- /.col-md-6 -->
+                            </div><!-- /.row -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="form-contact-message">{% trans 'Message' %}<em>*</em></label>
+                                        {{ form_contact.message.errors }}
+                                        {{ form_contact.message }}
+                                    </div><!-- /.form-group -->
+                                </div><!-- /.col-md-12 -->
+                            </div><!-- /.row -->
+                            <div class="form-group clearfix">
+                                <button type="submit" class="btn pull-right btn-default" id="form-contact-submit">{% trans 'Send a Message' %}</button>
+                            </div><!-- /.form-group -->
+                            <div id="form-status"></div>
+                            {% endif %}
+                        </form><!-- /#form-contact -->
+                    </section>
+                </section><!-- /#agent-detail -->
+            </div><!-- /.col-md-9 -->
+            <!-- end Contact -->
+
+{#            {% include "sidebar/sidebar_right.html" %}#}
+
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script type="text/javascript" src="{% static 'js/markerwithlabel_packed.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/infobox.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jshashtable-2.1_src.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.numberformatter-1.2.3.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tmpl.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.dependClass-0.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/draggable-0.1.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.slider.js' %}"></script>
+
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+{% endblock %}

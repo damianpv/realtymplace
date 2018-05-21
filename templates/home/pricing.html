@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}{% trans "Privacy Policy" %}{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-pricing{% endblock %}
+
+{% block content %}
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li class="active">{% trans 'Pricing' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <header><h1>Add Your Property</h1></header>
+
+        <section id="select-package">
+            <div class="table-responsive submit-pricing">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Package Comparison:</th>
+                        <th class="title">Free</th>
+                        <th class="title">Bronze</th>
+                        <th class="title">Silver</th>
+                        <th class="title">Gold</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="prices">
+                        <td></td>
+                        <td>$0</td>
+                        <td>$5 <small>/ month</small></td>
+                        <td>$10 <small>/ month</small></td>
+                        <td>$20 <small>/ month</small></td>
+                    </tr>
+                    <tr>
+                        <td>Property Submit Limit</td>
+                        <td>1</td>
+                        <td>10</td>
+                        <td>20</td>
+                        <td>40</td>
+                    </tr>
+                    <tr>
+                        <td>Property Images Limit</td>
+                        <td>10</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>Property Limit Time</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td>Agent Profiles</td>
+                        <td>1</td>
+                        <td>5</td>
+                        <td>10</td>
+                        <td>20</td>
+                    </tr>
+                    <tr>
+                        <td>Agency Profiles</td>
+                        <td class="not-available"><i class="fa fa-times"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Featured Properties</td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>Property list in our APP Mobile *</td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>APP Mobile with Agency brand **</td>
+                        <td class="not-available"><i class="fa fa-times"></i></td>
+                        <td class="available"><i class="fa fa-times"></i></td>
+                        <td class="available"><i class="fa fa-times"></i></td>
+                        <td class="available"><i class="fa fa-times"></i></td>
+                    </tr>
+                    <tr>
+                        <td>24x7 Support</td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                        <td class="available"><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr class="buttons">
+                        <td></td>
+                        <td><a href="#" class="btn btn-default small">Sign up</a></td>
+                        <td><a href="#" class="btn btn-default small">Sign up</a></td>
+                        <td><a href="#" class="btn btn-default small">Sign up</a></td>
+                        <td><a href="#" class="btn btn-default small">Sign up</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div><!-- /.submit-pricing -->
+        </section><!-- /#select-package -->
+        <p>* Your contact info, location and your properties will be added and updated automatically.</p>
+        <p>** We include your agency name and logo. Your contact info, location and your properties will be added and updated automatically.</p>
+    </div><!-- /.container -->
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/script_custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+
+{% endblock %}

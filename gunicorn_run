@@ -1,0 +1,29 @@
+#!/bin/bash
+NAME="realtymplace" # Nombre del proyecto
+DJANGODIR=/projects/realtymplace/www #Directorio del proyecto
+SOCKFILE=/projects/realtymplace/run/gunicorn.sock #Ruta del SockFile para nginx
+USER=root  # Usuario que ejecute las instancias
+GROUP=root # Grupo del usuario que ejecute las instancias
+NUM_WORKERS=3 # 2 * CPUs + 1
+DJANGO_SETTINGS_MODULE=realtymplace.settings # Modulo settings del proyecto
+DJANGO_WSGI_MODULE=realtymplace.wsgi # Nombre de la aplicacion para WSGI
+echo "Iniciando $NAME como `whoami`"
+
+# Activando el ambiente virtual
+cd $DJANGODIR
+source /home/.virtualenvs/realtymplace/bin/activate
+export DJANGO_SETTINGS_MODULE=$DJANGO_SETTINGS_MODULE
+export PYTHONPATH=$DJANGODIR:$PYTHONPATH
+
+# Creando el directorio del archivo gunicorn.sock por si no existe
+RUNDIR=$(dirname $SOCKFILE)
+test -d $RUNDIR || mkdir -p $RUNDIR
+
+# Comando que ejecuta supervisor para correr el servidor gunicorn
+exec /home/.virtualenvs/realtymplace/bin/gunicorn ${DJANGO_WSGI_MODULE}:application \
+--name $NAME \
+--workers $NUM_WORKERS \
+--user=$USER --group=$GROUP \
+--bind=unix:$SOCKFILE \
+--log-level=debug \
+--log-file=-

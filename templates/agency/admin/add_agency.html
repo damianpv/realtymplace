@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block title %}Add Agency{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/bootstrap-select.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/magnific-popup.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/jquery.slider.min.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/owl.carousel.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/style_custom.css' %}" type="text/css">
+{% endblock %}
+
+{% block cssbody %}page-sub-page page-create-agency page-account{% endblock %}
+
+{% block content %}
+
+    <!-- Breadcrumb -->
+    <div class="container mtopfix">
+        <ol class="breadcrumb">
+            <li><a href="{% url 'go_home' %}">{% trans 'Home' %}</a></li>
+            <li class="active">{% trans 'Create Agency' %}</li>
+        </ol>
+    </div>
+    <!-- end Breadcrumb -->
+
+    <div class="container">
+        <header><h1>{% trans 'Add Agency' %}</h1></header>
+        <div class="row">
+            <div class="col-md-8 col-sm-12 col-md-offset-2">
+                <form role="form" id="form-create-agency" class="form-create-agency" action="." method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <section>
+                        <div class="form-group">
+                            <label for="form-create-agency-title">{% trans 'Agency Title' %}:</label>
+                            {{ form.title.errors }}
+                            {{ form.title }}
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label for="form-create-agency-title">{% trans 'Logo' %}:</label>
+                            {{ form.logo.errors }}
+                            {{ form.logo }}
+                        </div><!-- /.form-group -->
+                        <div class="form-group">
+                            <label for="form-create-agency-description">{% trans 'Description' %}:</label>
+                            {{ form.description.errors }}
+                            {{ form.description }}
+                        </div><!-- /.form-group -->
+                    </section>
+                    <h3>{% trans 'Contact Information' %}</h3>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-6">
+                            <section id="address">
+                                <div class="form-group">
+                                    <label for="form-create-agency-address-1">{% trans 'Address' %}:</label>
+                                    {{ form.address.errors }}
+                                    {{ form.address }}
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="form-create-agency-address-1">{% trans 'Country' %}:</label>
+                                    {{ form.country.errors }}
+                                    {{ form.country }}
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="form-create-agency-address-1">{% trans 'State' %}:</label>
+                                    {{ form.state.errors }}
+                                    {{ form.state }}
+                                </div><!-- /.form-group -->
+                                <div class="row">
+                                    <div class="col-md-8 col-sm-8">
+                                        <div class="form-group">
+                                            <label for="form-create-agency-city">{% trans 'City' %}:</label>
+                                            {{ form.city.errors }}
+                                            {{ form.city }}
+                                        </div><!-- /.form-group -->
+                                    </div><!-- /.col-md-8 -->
+                                    <div class="col-md-4 col-sm-4">
+                                        <div class="form-group">
+                                            <label for="form-create-agency-zip">{% trans 'Zip code' %}:</label>
+                                            {{ form.zip_code.errors }}
+                                            {{ form.zip_code }}
+                                        </div><!-- /.form-group -->
+                                    </div><!-- /.col-md-4 -->
+                                </div><!-- /.row -->
+                            </section><!-- /#address -->
+                        </div><!-- /.col-md-6 -->
+                        <div class="col-md-6 col-sm-6">
+                            <section id="contacts">
+                                <div class="form-group">
+                                    <label for="form-create-agency-email">{% trans 'Email' %}:</label>
+                                    {{ form.email.errors }}
+                                    {{ form.email }}
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="form-create-agency-phone">{% trans 'Phone' %}:</label>
+                                    {{ form.phone.errors }}
+                                    {{ form.phone }}
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="form-create-agency-phone">{% trans 'Cell' %}:</label>
+                                    {{ form.cell.errors }}
+                                    {{ form.cell }}
+                                </div><!-- /.form-group -->
+                                <div class="form-group">
+                                    <label for="form-create-agency-website">{% trans 'Website' %}:</label>
+                                    {{ form.website.errors }}
+                                    {{ form.website }}
+                                </div><!-- /.form-group -->
+                            </section><!-- /#address -->
+                        </div><!-- /.col-md-6 -->
+                    </div><!-- /.row -->
+                    {% comment %}
+                    <section id="select-package">
+                        <header><h3>Select a Package<i class="fa fa-question-circle tool-tip"  data-toggle="tooltip" data-placement="right" title="You can change a package later in 'Agency Profile' section"></i></h3></header>
+                        <div class="table-responsive submit-pricing">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Package:</th>
+                                    <th class="title">Free</th>
+                                    <th class="title">Silver</th>
+                                    <th class="title">Gold</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="prices">
+                                    <td></td>
+                                    <td>$0</td>
+                                    <td>$20</td>
+                                    <td>$40</td>
+                                </tr>
+                                <tr>
+                                    <td>Property Submit Limit</td>
+                                    <td>1</td>
+                                    <td>20</td>
+                                    <td>Unlimited</td>
+                                </tr>
+                                <tr>
+                                    <td>Agent Profiles</td>
+                                    <td>1</td>
+                                    <td>10</td>
+                                    <td>Unlimited</td>
+                                </tr>
+                                <tr>
+                                    <td>Agency Profiles</td>
+                                    <td class="not-available"><i class="fa fa-times"></i></td>
+                                    <td>5</td>
+                                    <td>Unlimited</td>
+                                </tr>
+                                <tr>
+                                    <td>Featured Properties</td>
+                                    <td class="not-available"><i class="fa fa-times"></i></td>
+                                    <td class="available"><i class="fa fa-check"></i></td>
+                                    <td class="available"><i class="fa fa-check"></i></td>
+                                </tr>
+                                <tr class="buttons">
+                                    <td></td>
+                                    <td class="package-selected" data-package="free"><button type="button" class="btn btn-default small">Select</button></td>
+                                    <td data-package="silver"><button type="button" class="btn btn-default small">Select</button></td>
+                                    <td data-package="gold"><button type="button" class="btn btn-default small">Select</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.submit-pricing -->
+                    </section><!-- /#select-package -->
+                    {% endcomment %}
+                    <section id="submit">
+                        <div class="form-group center">
+                            <button type="submit" class="btn btn-default large" id="account-submit">{% trans 'Add Agency' %}</button>
+                        </div><!-- /.form-group -->
+                    </section>
+                </form>
+                <hr>
+                <section class="center">
+                    <figure class="note">{% trans 'By clicking the “Add Agency/Save Agency” button you agree with our' %} <a href="terms-conditions.html">{% trans 'Terms and conditions' %}</a></figure>
+                </section>
+            </div><!-- /.col-md-8 -->
+        </div><!-- /.row -->
+    </div><!-- /.container -->
+
+{% endblock %}
+
+{% block footer_before %}
+    {% include 'footer_before.html' %}
+{% endblock %}
+
+{% block js_bottom %}
+    <script type="text/javascript" src="{% static 'js/jquery-migrate-1.2.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/smoothscroll.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap-select.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/icheck.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/retina-1.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/custom.js' %}"></script>
+    <!--[if gt IE 8]>
+    <script type="text/javascript" src="{% static 'js/ie.js' %}"></script>
+    <![endif]-->
+{% endblock %}
